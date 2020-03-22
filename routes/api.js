@@ -24,20 +24,23 @@ module.exports = function (app) {
       var returnUnit = convertHandler.getReturnUnit(initUnit);
       var toString = convertHandler.getString(initNum, initUnit, returnNum, returnUnit);
      
-      const checkForErr = convertHandler.checkEntry(input);
       
-      switch(convertHandler.checkError){
+      let checkError = 0;
+      initNum == "errorNum" ? checkError+=1 : null;
+      initUnit == "errorUnit" ? checkError+=2 : null;
+      
+      switch(checkError){
         case 1:
-          res.send("invalid number");
+          res.json('invalid number');
           break;
         case 2:
-          res.send('invalid unit');
+          res.json('invalid unit')
           break;
         case 3:
-          res.send('invalid number and unit');
+          res.json('invalid number and unit')
           break;
-        default:
-          res.json({initNum: initNum, initUnit: initUnit, returnNum: returnNum, returnUnit: returnUnit, string: toString})
+      default:
+        res.json({initNum: initNum, initUnit: initUnit, returnNum: returnNum, returnUnit: returnUnit, string: toString})
       }
   });
     
